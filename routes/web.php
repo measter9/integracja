@@ -10,6 +10,9 @@ Route::get('/xml', [testContreoller::class, 'xml']);
 Route::get('/', function(){
     return view('welcome');
 });
+Route::get('/chart',function (){
+    return view('chart');
+});
 
 
 Auth::routes();

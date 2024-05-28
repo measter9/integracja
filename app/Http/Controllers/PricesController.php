@@ -15,4 +15,9 @@ class PricesController extends Controller
         $arr = Prices::all()->where('miasto', 'like',$city)->toArray();
         return response()->json(array_values($arr));
     }
+    public function in_category($city,$category){
+        $arr = Prices::all()->where('miasto', 'like',$city)->where('kategoria','like',$category)->toArray();
+        return response()->json(array_values($arr));
+
+    }
 }

@@ -17,4 +17,6 @@ Route::controller(StopyController::class)->prefix("rates")->group(function () {
 
 Route::controller(PricesController::class)->prefix("prices")->group(function () {
     Route::get('/in/{city}', 'in');
+    Route::get('/in/{city}/{category}', 'in_category');
+
 });
