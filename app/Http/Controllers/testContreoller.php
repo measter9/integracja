@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use SimpleXMLElement;
 
 class testContreoller extends Controller
 {
@@ -44,7 +46,42 @@ class testContreoller extends Controller
             }
             echo "<br/>";
         }
+    }
+    public function downloadTest()
+    {
+        $miasto = $_GET['city'];
+        $category = $_GET['category'];
+        $from = $_GET['from'];
+        $to = $_GET['to'];
+
+        $ret['prices'] = ( (new PricesController())->inCategoryBetween($miasto,$category,$from,$to))->original;
+        $ret['rates'] = array_values((new StopyController())->between($from,$to)->toArray());
 
 
+//        return response($ret);
+        return response($ret, 200,[
+            'Content-Disposition' => 'attachment; filename="collection.json"']
+            );
+    }
+
+    public function downloadTestXml()
+    {
+        $miasto = $_GET['city'];
+        $category = $_GET['category'];
+        $from = $_GET['from'];
+        $to = $_GET['to'];
+
+        $xml = new SimpleXMLElement('<xml/>');
+        $xml->addChild('prices');
+        $xml->addChild('rates');
+
+        $prices = ( (new PricesController())->inCategoryBetween($miasto,$category,$from,$to))->original;
+
+//        foreach ($prices as ) {
+//            $xml->prices->addChild("price")->addAttribute("d",$price);
+//
+//        }
+
+        return $xml->asXML();
     }
 }

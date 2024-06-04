@@ -10,6 +10,8 @@ Route::get('/xml', [testContreoller::class, 'xml']);
 Route::get('/', function(){
     return view('welcome');
 });
+Route::get('/download',[testContreoller::class,'downloadTest']);
+Route::get('/downloadXML',[testContreoller::class,'downloadTestXml']);
 
 
 Auth::routes();
