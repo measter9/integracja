@@ -13,10 +13,14 @@ Route::get('/user', function (Request $request) {
 Route::controller(StopyController::class)->prefix("rates")->group(function () {
     Route::get('/current', 'current');
     Route::get('/date/{date}', 'on');
+    Route::get('/between/{from}/{to}','between');
+    Route::get('/getTypes','getRatesTypes');
 });
 
 Route::controller(PricesController::class)->prefix("prices")->group(function () {
     Route::get('/in/{city}', 'in');
     Route::get('/in/{city}/{category}', 'in_category');
-
+    Route::get('/inbetween/{city}/{category}/{from}/{to}','inCategoryBetween');
+    Route::get('/getCities','getCities');
+    Route::get('/getCategories','getCategories');
 });

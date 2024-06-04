@@ -20,4 +20,26 @@ class PricesController extends Controller
         return response()->json(array_values($arr));
 
     }
+    public function inCategoryBetween($city, $category, $from, $to)
+    {
+        $ret = array();
+        $q = new StopyController();
+        $json = json_decode($this->in_category($city,$category)->content());
+        foreach ($json as $item){
+            $date = strtotime( $q->kwartalToData($item->kwartal));
+            if ( $date > strtotime($from) && $date < strtotime($to) ){
+                array_push($ret,$item);
+            }
+        }
+        return response()->json(array_values($ret));
+    }
+    public function getCities()
+    {
+        return Prices::distinct()->get(['miasto']);
+    }
+    public function getCategories()
+    {
+        return  Prices::distinct()->get(['kategoria']);
+
+    }
 }

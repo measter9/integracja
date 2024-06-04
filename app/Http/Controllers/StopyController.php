@@ -35,6 +35,7 @@ class StopyController extends Controller
         }
         return $ret;
     }
+
     public function all()
     {
         return Stopy::all()->whereBetween('data',["2006-01-01","2024-01-01"]);
@@ -48,4 +49,12 @@ class StopyController extends Controller
         return Stopy::all()
             ->whereBetween('data', [$from, $data])->last();
     }
+    public function between($form, $to){
+        return Stopy::all()->whereBetween('data', [$form, $to]);
+    }
+    public function getRatesTypes()
+    {
+        return ["ref","lom","dep","red","dys"];
+    }
+
 }
