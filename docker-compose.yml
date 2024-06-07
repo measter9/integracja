@@ -1,0 +1,66 @@
+# docker run -d --name laravel -p 8000:8000   --env DB_HOST=mariadb   --env DB_PORT=3306   --env DB_USERNAME=root   --env DB_DATABASE=is_test    --volume ${PWD}/integracja:/app   bitnami/laravel:latest
+version: '3.8'
+
+services:
+    laravel:
+        container_name: IS_laravel
+        image: bitnami/laravel:11.1.1-debian-12-r0
+        volumes:
+            - .:/app
+        environment:
+            DB_HOST: mysql
+            LARAVEL_DATABASE_NAME: projekt-integracje
+            DB_PASSWORD: root
+            DB_USERNAME: root
+
+        depends_on:
+            - mysql
+        ports:
+            - 8000:8000
+            - 5173:5173
+        networks:
+            - IS_net
+
+
+    #    laravel:
+    #        build:
+    #            context: .
+    #        links:
+    #            - mysql
+    #        ports:
+    #            - 8000:8000
+    #        networks:
+    #            - IS_net
+    #        environment:
+    #            DB_HOST: mysql
+    #            LARAVEL_DATABASE_NAME: projekt-integracje
+    #            DB_PASSWORD: root
+    #            DB_USERNAME: root
+
+    phpmyadmin:
+        container_name: IS_admin
+        image: phpmyadmin
+        depends_on:
+            - mysql
+        ports:
+            - 8090:80
+        networks:
+            - IS_net
+        environment:
+            PMA_HOST: mysql
+            MYSQL_ROOT_PASSWORD: root
+            LARAVEL_DATABASE_NAME: IS
+
+    mysql:
+        container_name: IS_mysql
+        image: mysql:lts
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - 3306:3306
+        networks:
+            - IS_net
+
+networks:
+    IS_net:
+        driver: bridge
