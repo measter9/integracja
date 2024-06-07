@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\PricesController;
@@ -79,9 +80,19 @@ foreach ($dataRates as $item) {
         </script>
         <div id="chartContainer" style="height: 370px; width: 100%;"></div>
         <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-        <div class="container m-2">
-            <a class="btn btn-primary m-2" href="/downloadXML">Export as XML</a>
-            <a class="btn btn-primary" href=@php echo "/download" @endphp>Export as JSON</a>
-        </div>
+
+    </div>
+
+    <div class="container m-2">
+        @php
+//            dd(urlencode($category));
+        @endphp
+        <a class="btn btn-primary m-2" href=<?php
+        echo "/download?city=".$_GET['city']."&category=".urlencode($category)."&from=".$from."&to=".$to."&stopTypes=".$rate
+                                            ?>>Export as JSON</a>
+        <a class="btn btn-primary" href=@php
+            echo "/downloadXML?city=".$_GET['city']."&category=".urlencode($category)."&from=".$from."&to=".$to."&stopTypes=".$rate
+
+        @endphp>Export as XML</a>
     </div>
 @endsection

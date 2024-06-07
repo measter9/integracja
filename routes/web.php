@@ -8,7 +8,7 @@ Route::get('/xml', [testContreoller::class, 'xml']);
 
 
 Route::get('/', function(){
-    return view('welcome');
+    return view('home');
 });
 Route::get('/download',[testContreoller::class,'downloadTest']);
 Route::get('/downloadXML',[testContreoller::class,'downloadTestXml']);

@@ -17,7 +17,7 @@
                         {{ __('You are logged in!') }}
 
                         <form action="{{ route('chart') }}" method="GET" id="chartForm">
-                            @csrf
+
 
                             <label for="city">Wybierz miasto: </label>
                             <select name="city" id="city">
