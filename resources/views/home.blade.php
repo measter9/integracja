@@ -71,7 +71,63 @@
                                 </ul>
                             </div>
                         @endif
+
+                                @push('scripts')
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            document.getElementById('chartForm').addEventListener('submit', function(event) {
+                                                let city = document.getElementById('city').value;
+                                                let category = document.getElementById('category').value;
+                                                let stopTypes = document.getElementById('stopTypes').value;
+                                                let fromDate = document.getElementById('from').value;
+                                                let toDate = document.getElementById('to').value;
+
+                                                var message = "";
+
+                                                if (city === "-- Nie wybrano --") {
+                                                    event.preventDefault();
+                                                    message += "Proszę wybrać miasto.\n";
+                                                }
+
+                                                if (category === "-- Nie wybrano --") {
+                                                    event.preventDefault();
+                                                    message += "Proszę wybrać kategorię.\n";
+                                                }
+
+                                                if (fromDate === '' || toDate === '') {
+                                                    event.preventDefault();
+                                                    message += "Proszę wybrać datę.\n";
+                                                } else {
+                                                    let fromYear = new Date(fromDate).getFullYear();
+                                                    let toYear = new Date(toDate).getFullYear();
+
+                                                    if (fromYear < 2006 || fromYear > 2024 || toYear < 2006 || toYear > 2024) {
+                                                        event.preventDefault();
+                                                        message += "Rok daty powinien być z zakresu od 2006 do 2024.\n";
+                                                    }
+
+                                                    if (fromYear >= toYear) {
+                                                        event.preventDefault();
+                                                        message += "Proszę wybrać właściwy rok (np. od 2004 do 2024).\n"
+                                                    }
+                                                }
+
+                                                if (stopTypes === "-- Nie wybrano --") {
+                                                    event.preventDefault();
+                                                    message += "Proszę wybrać rodzaj stop procentowych.\n";
+                                                }
+
+
+                                                console.log(message)
+
+                                            });
+                                        });
+                                    </script>
+
+                                @endpush
                             @endauth
+
+
                     </div>
                 </div>
             </div>
@@ -79,56 +135,4 @@
     </div>
 @endsection
 
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('chartForm').addEventListener('submit', function(event) {
-                let city = document.getElementById('city').value;
-                let category = document.getElementById('category').value;
-                let stopTypes = document.getElementById('stopTypes').value;
-                let fromDate = document.getElementById('from').value;
-                let toDate = document.getElementById('to').value;
 
-                var message = "";
-
-                if (city === "-- Nie wybrano --") {
-                    event.preventDefault();
-                    message += "Proszę wybrać miasto.\n";
-                }
-
-                if (category === "-- Nie wybrano --") {
-                    event.preventDefault();
-                    message += "Proszę wybrać kategorię.\n";
-                }
-
-                if (fromDate === '' || toDate === '') {
-                    event.preventDefault();
-                    message += "Proszę wybrać datę.\n";
-                } else {
-                    let fromYear = new Date(fromDate).getFullYear();
-                    let toYear = new Date(toDate).getFullYear();
-
-                    if (fromYear < 2006 || fromYear > 2024 || toYear < 2006 || toYear > 2024) {
-                        event.preventDefault();
-                        message += "Rok daty powinien być z zakresu od 2006 do 2024.\n";
-                    }
-
-                    if (fromYear >= toYear) {
-                        event.preventDefault();
-                        message += "Proszę wybrać właściwy rok (np. od 2004 do 2024).\n"
-                    }
-                }
-
-                if (stopTypes === "-- Nie wybrano --") {
-                    event.preventDefault();
-                    message += "Proszę wybrać rodzaj stop procentowych.\n";
-                }
-
-
-                console.log(message)
-
-            });
-        });
-    </script>
-
-@endpush
