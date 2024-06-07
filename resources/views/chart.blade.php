@@ -7,6 +7,7 @@ $miasto = $_GET['city'];
 $category = $_GET['category'];
 $from = $_GET['from'];
 $to = $_GET['to'];
+$rate = $_GET['stopTypes'];
 
 // http://localhost:8000/chart?city=Lublin&category=Rynek%20pierwotny(oferta)&from=2021-01-01&to=2024-01-01
 
@@ -20,59 +21,67 @@ foreach ($dataPrices as $item) {
     array_push($dataPoints, array('x' => strtotime((new StopyController)->kwartalToData($item->kwartal)) * 1000, 'y' => $item->cena));
 };
 foreach ($dataRates as $item) {
-    array_push($dataPoints2, array('x' => strtotime($item->data) * 1000, 'y' => $item->ref));
+    array_push($dataPoints2, array('x' => strtotime($item->data) * 1000, 'y' => $item->$rate));
 }
 
 ?>
+@extends('layouts.app')
 
-<div>
-    <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
-    <script>
-        window.onload = function () {
+@section('content')
+    <div>
+        <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
+        <script>
+            window.onload = function () {
 
-            var chart = new CanvasJS.Chart("chartContainer", {
-                animationEnabled: true,
-                exportEnabled: true,
-                theme: "light1", // "light1", "light2", "dark1", "dark2"
-                title: {
-                    text: <?php echo "'" . $miasto . " - " . $category . "'" ?>
-                },
-                axisY: {
-                    includeZero: true,
-                    titleFontColor: "#4F81BC",
-                    lineColor: "#4F81BC",
-                    labelFontColor: "#4F81BC",
-                    tickColor: "#4F81BC"
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    exportEnabled: true,
+                    theme: "light1", // "light1", "light2", "dark1", "dark2"
+                    title: {
+                        text: <?php echo "'" . $miasto . " - " . $category . "'" ?>
+                    },
+                    axisY: {
+                        includeZero: true,
+                        titleFontColor: "#4F81BC",
+                        lineColor: "#4F81BC",
+                        labelFontColor: "#4F81BC",
+                        tickColor: "#4F81BC"
 
-                },
-                axisY2: {
-                    title: "stop",
-                    titleFontColor: "#C0504E",
-                    lineColor: "#C0504E",
-                    labelFontColor: "#C0504E",
-                    tickColor: "#C0504E"
-                }
-                ,
-                data: [{
-                    type: "line", //change type to bar, line, area, pie, etc
-                    //indexLabel: "{y}", //Shows y value on all Data Points
-                    xValueType: "dateTime",
-                    indexLabelFontColor: "#5A5757",
-                    indexLabelPlacement: "outside",
-                    dataPoints: <?php echo json_encode($dataPoints); ?>
-                }, {
-                    type: "line", //change type to bar, line, area, pie, etc
-                    //indexLabel: "{y}", //Shows y value on all Data Points
-                    axisYType: "secondary",
-                    xValueType: "dateTime",
-                    indexLabelFontColor: "#5A5757",
-                    indexLabelPlacement: "outside",
-                    dataPoints: <?php echo json_encode($dataPoints2) ?>
-}]})
-                                chart.render();
+                    },
+                    axisY2: {
+                        title: "stop",
+                        titleFontColor: "#C0504E",
+                        lineColor: "#C0504E",
+                        labelFontColor: "#C0504E",
+                        tickColor: "#C0504E"
+                    }
+                    ,
+                    data: [{
+                        type: "line", //change type to bar, line, area, pie, etc
+                        //indexLabel: "{y}", //Shows y value on all Data Points
+                        xValueType: "dateTime",
+                        indexLabelFontColor: "#5A5757",
+                        indexLabelPlacement: "outside",
+                        dataPoints: <?php echo json_encode($dataPoints); ?>
+                    }, {
+                        type: "line", //change type to bar, line, area, pie, etc
+                        //indexLabel: "{y}", //Shows y value on all Data Points
+                        axisYType: "secondary",
+                        xValueType: "dateTime",
+                        indexLabelFontColor: "#5A5757",
+                        indexLabelPlacement: "outside",
+                        dataPoints: <?php echo json_encode($dataPoints2) ?>
+                    }]
+                })
+                chart.render();
 
-                                }
-                                </script >
-    <div id = "chartContainer" style = "height: 370px; width: 100%;" ></div >
-    <script src = "https://cdn.canvasjs.com/canvasjs.min.js" ></script >
-</div >
+            }
+        </script>
+        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+        <div class="container m-2">
+            <a class="btn btn-primary m-2" href="/downloadXML">Export as XML</a>
+            <a class="btn btn-primary" href=@php echo "/download" @endphp>Export as JSON</a>
+        </div>
+    </div>
+@endsection

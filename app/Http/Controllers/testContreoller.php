@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Mockery\Exception;
 use SimpleXMLElement;
 
 class testContreoller extends Controller
@@ -66,22 +67,47 @@ class testContreoller extends Controller
 
     public function downloadTestXml()
     {
-        $miasto = $_GET['city'];
-        $category = $_GET['category'];
-        $from = $_GET['from'];
-        $to = $_GET['to'];
+        try {
+            $miasto = $_GET['city'];
+            $category = $_GET['category'];
+            $from = $_GET['from'];
+            $to = $_GET['to'];
+        }catch (\Throwable $e){
+            return $e->getMessage();
+        }
 
         $xml = new SimpleXMLElement('<xml/>');
-        $xml->addChild('prices');
+        $xml->addAttribute("date_from",$from);
+        $xml->addAttribute("date_to",$to);
+        $prices = $xml->addChild('prices');
+        $prices->addAttribute("miasto",$miasto);
         $xml->addChild('rates');
+        $xml->rates->addAttribute("miasto",$miasto);
 
         $prices = ( (new PricesController())->inCategoryBetween($miasto,$category,$from,$to))->original;
+        $rates =  json_decode( (new StopyController())->between($from,$to));
 
-//        foreach ($prices as ) {
-//            $xml->prices->addChild("price")->addAttribute("d",$price);
-//
-//        }
+        foreach ($prices as $price) {
+            $current = $xml->prices->addChild("price");
+                $current->addAttribute("kwartal",$price->kwartal);
+                $cena = $current->addChild("cena",$price->cena);
+//                $cena->addAttribute("cena",$price->cena);
+        }
 
-        return $xml->asXML();
+        foreach ($rates as $rate){
+            $current = $xml->rates->addChild("rate");
+            foreach ($rate as $key => $value) {
+                if($key != "id")
+                $current->addChild($key,$value);
+
+            }
+
+        }
+
+//        return $xml->asXML();
+        return response($xml->asXML(), 200,[
+                'Content-Disposition' => 'attachment; filename="collection.xml"']
+        );
+
     }
 }

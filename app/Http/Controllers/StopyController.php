@@ -52,6 +52,7 @@ class StopyController extends Controller
     public function between($form, $to){
         return Stopy::all()->whereBetween('data', [$form, $to]);
     }
+
     public function getRatesTypes()
     {
         return ["ref","lom","dep","red","dys"];
