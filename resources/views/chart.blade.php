@@ -42,6 +42,7 @@ foreach ($dataRates as $item) {
                         text: <?php echo "'" . $miasto . " - " . $category . "'" ?>
                     },
                     axisY: {
+                        title:"cena mieszkań",
                         includeZero: true,
                         titleFontColor: "#4F81BC",
                         lineColor: "#4F81BC",
@@ -50,7 +51,7 @@ foreach ($dataRates as $item) {
 
                     },
                     axisY2: {
-                        title: "stop",
+                        title: "stopy procentowe",
                         titleFontColor: "#C0504E",
                         lineColor: "#C0504E",
                         labelFontColor: "#C0504E",
@@ -61,14 +62,17 @@ foreach ($dataRates as $item) {
                         type: "line", //change type to bar, line, area, pie, etc
                         //indexLabel: "{y}", //Shows y value on all Data Points
                         xValueType: "dateTime",
+                        xValueFormatString: "MMM YYYY",
+                        yValueFormatString: "#0 000 zł",
                         indexLabelFontColor: "#5A5757",
                         indexLabelPlacement: "outside",
                         dataPoints: <?php echo json_encode($dataPoints); ?>
                     }, {
-                        type: "line", //change type to bar, line, area, pie, etc
+                        type: "stepLine", //change type to bar, line, area, pie, etc
                         //indexLabel: "{y}", //Shows y value on all Data Points
                         axisYType: "secondary",
                         xValueType: "dateTime",
+                        yValueFormatString:"#0.0\"%\"",
                         indexLabelFontColor: "#5A5757",
                         indexLabelPlacement: "outside",
                         dataPoints: <?php echo json_encode($dataPoints2) ?>
