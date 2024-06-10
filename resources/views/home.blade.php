@@ -45,6 +45,7 @@
                                 <label for="city" class="form-label">Wybierz miasto:</label>
                                 <select name="city" id="city" class="form-select">
                                     @php
+
                                         $cities = ["-- Nie wybrano --", "Białystok", "Bydgoszcz", "Gdańsk", "Gdynia", "Katowice", "Kielce", "Kraków", "Lublin", "Łódź", "Olsztyn", "Opole", "Poznań", "Rzeszów", "Szczecin", "Warszawa", "Wrocław", "Zielona Góra", "6 miast bez Warszawy", "7 miast", "9 miast", "10 miast", "Gdynia*"];
                                     @endphp
                                     @foreach ($cities as $city)
@@ -118,15 +119,15 @@
                                 <button type="submit" class="btn btn-primary">{{ __('Generuj Wykres') }}</button>
                             </div>
 
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
+{{--                            @if ($errors->any())--}}
+                                <div id="error" >
                                     <ul>
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
                                         @endforeach
                                     </ul>
                                 </div>
-                            @endif
+{{--                            @endif--}}
                         </form>
 
 
@@ -204,7 +205,8 @@
 
                                         if (message !== "") {
                                             event.preventDefault();
-                                            let errorMessage = document.createElement('div');
+                                            let errorMessage = document.getElementById("error")
+                                                // document.createElement('div');
                                             errorMessage.className = 'alert alert-danger';
                                             errorMessage.innerHTML = '<ul><li>' + message.trim().split('\n').join('</li><li>') + '</li></ul>';
                                             document.getElementById('chartForm').prepend(errorMessage);
