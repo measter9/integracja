@@ -83,16 +83,17 @@ foreach ($dataRates as $item) {
 
     </div>
 
-    <div class="container m-2">
+    <br>
+    <div class="container" style="text-align: center; width: 100%">
         @php
 //            dd(urlencode($category));
         @endphp
-        <a class="btn btn-primary m-2" href=<?php
+
+        <a class="btn btn-primary m-2" href=@php
         echo "/download?city=".$_GET['city']."&category=".urlencode($category)."&from=".$from."&to=".$to."&stopTypes=".$rate
-                                            ?>>Export as JSON</a>
+                                            @endphp>Export as JSON</a>
         <a class="btn btn-primary" href=@php
             echo "/downloadXML?city=".$_GET['city']."&category=".urlencode($category)."&from=".$from."&to=".$to."&stopTypes=".$rate
-
-        @endphp>Export as XML</a>
+                                        @endphp>Export as XML</a>
     </div>
 @endsection
