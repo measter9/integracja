@@ -1,10 +1,14 @@
-# TEMAT: Zestawienie danych na temat wysokości stóp procentowych i cen mieszkań w okresie ostatnich 10 lat, z uwzględnieniem regionów i typów mieszkań
+# Real Estate Data Analysis and Management System
 
-1. Obsługa usługi SOAP lub REST dla pobierania danych.
-2. Implementacja mechanizmów walidacji przetwarzanych danych
-3. Zapis pozyskanych danych do bazy danych aplikacji oraz odczyt danych z bazy do aplikacji z wykorzystaniem ORM.
-4. Implementacja mechanizmu uwierzytelnienia i autoryzacji.
-5. Wykorzystanie warstwy graficznej: interface użytkownika, pobieranie danych, wyświetlanie wyników itd.
-6. Eksport danych w formacie XML lub JSON.
-7. Eksport danych w formacie JPEG lub PNG.
-8. Stworzenie kontenera Docker obejmującego stworzoną aplikację lub zespół aplikacji wraz ze wszystkimi koniecznymi do działania składnikami.
+This project provides a comprehensive analysis and management system for real estate data over the past 10 years, focusing on interest rates and housing prices across different regions and housing types.
+
+## Features
+
+- **Data Sources**: Supports SOAP or REST API for data retrieval.
+- **Data Validation**: Implements robust data validation mechanisms.
+- **Database Integration**: Utilizes ORM for storing and retrieving data from the application database.
+- **Authentication and Authorization**: Implements authentication and authorization mechanisms.
+- **User Interface**: Provides a graphical interface for data retrieval and visualization.
+- **Data Export**: Supports exporting data in XML or JSON formats.
+- **Image Export**: Enables export of data results in JPEG or PNG formats.
+- **Docker Containerization**: Includes Docker container for easy deployment.
